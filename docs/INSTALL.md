@@ -41,6 +41,17 @@ Windows PowerShell: `Get-FileHash .\SparkPrivacy-Setup-Windows-x64.exe -Algorith
 
 Clone source, `python -m pip install -e '.[dev]'`, run tests and use `python -m sparkprivacy`. Optional native shell: `python -m pip install -e '.[desktop]'`; `python desktop_launcher.py`. Builds are defined in `.github/workflows/ci.yml`.
 
-## Direct verified download (2026-10-25)
+## Verified CI and preview release — 2026-10-25
 
-The first published preview is [`v0.1.0-preview.2`](https://github.com/hossain0707/SparkPrivacy/releases/tag/v0.1.0-preview.2), containing the exact Windows, macOS and Linux filenames listed above, plus a matching SHA-256 manifest. The release pipeline passed 15 jobs. The binaries remain unsigned, with clean-machine acceptance pending. For later releases, choose the newest GitHub-verified preview whose assets and checksums have been inspected.
+All 15 GitHub Actions jobs passed on run 40165510595, including the Windows encoding test fix, dependency audit, desktop build self-checks and release publication. Download verified `v0.1.0-preview.2` from https://github.com/hossain0707/SparkPrivacy/releases/tag/v0.1.0-preview.2. Real DGX Spark hardware acceptance, clean-machine installations, Windows signing, Mac notarization, independent pen testing and DLP recall/precision remain open. A controlled local HTTP mock verified request+response email redaction without persistence of raw text.
+
+## Windows crash fix: Unable to configure formatter 'default'
+
+If the Windows application fails with **"Unable to configure formatter 'default'"** or `NoneType ... isatty`, you are using the original **v0.1.0-preview.2** installer, where a consoleless Uvicorn logging formatter prevented startup.
+
+1. Open [SparkPrivacy Releases](https://github.com/hossain0707/SparkPrivacy/releases).
+2. Download the newest **v0.1.1 preview or later** Windows setup EXE *after* GitHub Actions has completed successfully.
+3. Close the old app, replace/uninstall the old preview build, then install the new build. Your local audit workspace is stored separately and should not be removed by the installer.
+4. Launch from Start Menu. If it still fails, report the preview tag, Windows version, and the full error text (without sensitive prompts, keys, or credentials).
+
+The corrected release adds a real packaged-backend startup check; this improves regression coverage but does not replace installation testing on your particular Windows machine.

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sparkprivacy"
-version = "0.1.0"
+version = "0.1.1"
 description = "Local-first data protection workbench and policy gateway for private AI"
 readme = "README.md"
 requires-python = ">=3.11"

@@ -12,10 +12,10 @@
 
 | Check | Status |
 | --- | --- |
-| CI Python tests Windows/macOS/Ubuntu | **Verified — 9 matrix jobs passed** |
-| CI dependency audit | **Verified passed** |
-| CI Windows x64 installer / portable, Mac Intel / Silicon DMGs, Ubuntu DEB | **All 4 desktop build jobs passed** |
-| GitHub published release with all assets and SHA256 | **Published v0.1.0-preview.2** |
+| CI Python tests Windows/macOS/Ubuntu | Pending observable workflow run |
+| CI dependency audit | Pending observable workflow run |
+| CI Windows x64 installer / portable, Mac Intel / Silicon DMGs, Ubuntu DEB | Pending observable workflow run |
+| GitHub published release with all assets and SHA256 | Pending observable workflow run |
 | Clean-machine install/update/uninstall | Pending |
 | Live Ethernet and VPN DGX Spark SSH+model tunnel | Pending |
 | Independent penetration test and DLP detector evaluation | Pending |
@@ -24,12 +24,15 @@
 
 Never claim production security or official privacy certification based on 55 functional tests alone.
 
-## Cross-platform CI and mock HTTP integration — confirmed 2026-10-25
+## Verified CI and preview release — 2026-10-25
 
-**Run:** [40165510595](https://github.com/hossain0707/SparkPrivacy/actions/runs/40165510595) — **15/15 jobs passed**. The initial run found a Windows test-file encoding oversight; this was fixed by specifying UTF-8, then the full workflow passed on the following commit.
+All 15 GitHub Actions jobs passed on run 40165510595, including the Windows encoding test fix, dependency audit, desktop build self-checks and release publication. Download verified `v0.1.0-preview.2` from https://github.com/hossain0707/SparkPrivacy/releases/tag/v0.1.0-preview.2. Real DGX Spark hardware acceptance, clean-machine installations, Windows signing, Mac notarization, independent pen testing and DLP recall/precision remain open. A controlled local HTTP mock verified request+response email redaction without persistence of raw text.
 
-**Published preview:** [v0.1.0-preview.2](https://github.com/hossain0707/SparkPrivacy/releases/tag/v0.1.0-preview.2), marked as prerelease with six cross-platform packages and SHA256SUMS.txt.
+## Desktop Windows startup hotfix (v0.1.1 source, 2026-10-25)
 
-**Additional smoke test:** SparkPrivacy used real loopback HTTP forwarding to a controlled local OpenAI-compatible mock server. The gateway did not forward a synthetic email identifier; it replaced it with `[REDACTED:EMAIL]`. It independently redacted a second synthetic email from model output and recorded only metadata disposition counts (2 redacted events). This does not test actual NVIDIA hardware or a third-party inference runtime.
-
-CI includes compiled-app self-tests, not clean-machine GUI installations. Physical and independent security acceptance remain pending.
+- Original v0.1.0-preview.2 Windows user screenshot: GUI startup failed in the Uvicorn default formatter because `sys.stdout` was `None` under PyInstaller `--windowed`.
+- `desktop_launcher.py` now deliberately opts out of Uvicorn's terminal-dependent default logging via `log_config=None`.
+- Added regression cases in `tests/test_packaging.py` to emulate both missing console streams, check real local FastAPI startup, and verify JSON report generation.
+- **57 tests passed locally** on Python 3.13/Linux; `python desktop_launcher.py --startup-self-test /tmp/sparkprivacy.json` returned a JSON report showing successful backend and frontend HTTP responses.
+- GitHub Actions now runs the startup self-test on built Windows/macOS/Linux GUI binaries; these checks must pass before the **v0.1.1** preview can be published.
+- **Still pending:** independent clean-PC confirmation, actual DGX Spark, code signing, pen test. Do not claim hardware acceptance or 100% DLP reliability.

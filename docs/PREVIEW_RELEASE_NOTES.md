@@ -1,6 +1,14 @@
-# SparkPrivacy v0.1.0 — unsigned developer preview
+# SparkPrivacy v0.1.1 — Windows desktop startup hotfix (unsigned developer preview)
 
 SparkPrivacy is an independent, local-first private AI data-protection workbench for Windows, macOS and Linux, with optional NVIDIA DGX Spark access through existing OpenSSH credentials.
+
+### Fixed in this build
+
+- Corrected Windows "Unable to configure formatter default" crash caused by PyInstaller `--windowed` removing `sys.stdout`/`sys.stderr` before Uvicorn logging initialization.
+- Disabled Uvicorn's console-only default logging configuration in the packaged desktop launcher.
+- Added live packaged-application HTTP startup and frontend-asset verification to the Windows, macOS and Linux CI build jobs.
+- Added regression tests that reproduce both missing standard streams and exercise the full local service startup.
+- Please uninstall or replace the original v0.1.0-preview.2 Windows build.
 
 ### Included features
 
