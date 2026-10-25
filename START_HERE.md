@@ -59,3 +59,13 @@ Professional dark navy with jade/mint accents and subtle purple-blue depth. Moti
 ## Suggested agent continuation prompt
 
 > Continue my existing SparkPrivacy GitHub repository. Read START_HERE.md and AGENTS.md, then ARCHITECTURE, SECURITY, VERIFICATION and RELEASE docs; inspect all code before changes. Preserve all features, metadata-only audit, localhost-only gateway, strict SSH host verification and accurate evidence labels. Run tests and verify platform installers before reporting success. Make UI professional and motion accessible, update source/docs/handover with every change, and push only tested changes to the existing repository without requiring paid hosting.
+
+## Verified release and CI evidence — 2026-10-25
+
+- Final main-branch code includes the UTF-8 Windows test fix.
+- GitHub Actions run [40165510595](https://github.com/hossain0707/SparkPrivacy/actions/runs/40165510595) completed **15/15 jobs successfully**: Python tests on Windows/macOS/Ubuntu with Python 3.11–3.13, dependency audit, four desktop packages, and release publishing.
+- Tagged developer prerelease: [v0.1.0-preview.2](https://github.com/hossain0707/SparkPrivacy/releases/tag/v0.1.0-preview.2).
+- Verified assets: Windows Setup EXE and portable ZIP, Mac Intel and Apple Silicon unsigned DMGs, Ubuntu x64 DEB and portable TAR.GZ, and SHA256SUMS.txt.
+- Independent manual test against a local mock OpenAI-compatible HTTP server succeeded: a synthetic email in the outbound prompt was redacted; a different synthetic email in the model response was redacted; SQLite audit recorded only two redaction events. This **does not** establish remote physical DGX Spark operation.
+- Outstanding: clean-machine installer launch/updates, code signing and notarization, actual DGX Spark SSH+model testing, real browser click-through acceptance, independent security review, and detector validation.
+- The repository README now uses **verified release download links**. Keep release names and actual limitations up to date in every workspace.
