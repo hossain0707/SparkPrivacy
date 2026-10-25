@@ -28,17 +28,17 @@ Detect sensitive information. Apply clear block/redact/monitor policies. Route t
 
 ## Download and install
 
-The GitHub Actions release workflow is configured to publish unsigned preview installers **after all platform checks succeed**. Download only a [release that actually appears on GitHub](https://github.com/hossain0707/SparkPrivacy/releases). If no release is listed, the cross-platform packages have not yet been verified/published; use the source installation below.
+**Verified download:** [SparkPrivacy v0.1.0-preview.2](https://github.com/hossain0707/SparkPrivacy/releases/tag/v0.1.0-preview.2) was published on 2026-10-25 after **15 of 15 GitHub Actions jobs passed** (nine OS/Python test jobs, dependency audit, four desktop builds and preview publication). It includes all six unsigned packages and a SHA-256 checksum manifest. Successful builds do **not** establish clean-machine installation or certified DLP security.
 
 | Your computer | Expected GitHub Release asset | Installation |
 | --- | --- | --- |
-| **Windows 10/11 — 64-bit** | `SparkPrivacy-Setup-Windows-x64.exe` | Run per-user setup, then open SparkPrivacy from Start Menu |
-| **macOS — Apple Silicon** | `SparkPrivacy-macOS-Apple-Silicon-unsigned.dmg` | Open the disk image, drag the app into Applications |
-| **macOS — Intel** | `SparkPrivacy-macOS-Intel-unsigned.dmg` | Open the disk image, drag the app into Applications |
-| **Ubuntu 24.04 — 64-bit** | `SparkPrivacy-Linux-Ubuntu-x64.deb` | Install through Software or `sudo apt install ./<file>.deb` |
+| **Windows 10/11 — 64-bit** | [`SparkPrivacy-Setup-Windows-x64.exe`](https://github.com/hossain0707/SparkPrivacy/releases/download/v0.1.0-preview.2/SparkPrivacy-Setup-Windows-x64.exe) | Run per-user setup, then open SparkPrivacy from Start Menu |
+| **macOS — Apple Silicon** | [`SparkPrivacy-macOS-Apple-Silicon-unsigned.dmg`](https://github.com/hossain0707/SparkPrivacy/releases/download/v0.1.0-preview.2/SparkPrivacy-macOS-Apple-Silicon-unsigned.dmg) | Open the disk image, drag the app into Applications |
+| **macOS — Intel** | [`SparkPrivacy-macOS-Intel-unsigned.dmg`](https://github.com/hossain0707/SparkPrivacy/releases/download/v0.1.0-preview.2/SparkPrivacy-macOS-Intel-unsigned.dmg) | Open the disk image, drag the app into Applications |
+| **Ubuntu 24.04 — 64-bit** | [`SparkPrivacy-Linux-Ubuntu-x64.deb`](https://github.com/hossain0707/SparkPrivacy/releases/download/v0.1.0-preview.2/SparkPrivacy-Linux-Ubuntu-x64.deb) | Install through Software or `sudo apt install ./<file>.deb` |
 | **Portable** | Windows ZIP / Linux TAR.GZ | Extract the complete folder and launch its executable |
 
-Every published preview must include `SHA256SUMS.txt`. **The preview applications are unsigned**; follow your organization's application-trust policies, rather than disabling device protection to run an unfamiliar binary. More information: [Installation guide](docs/INSTALL.md) and [release checklist](docs/RELEASE.md).
+The verified release includes [SHA-256 checksums](https://github.com/hossain0707/SparkPrivacy/releases/download/v0.1.0-preview.2/SHA256SUMS.txt). **The preview applications are unsigned**; follow your organization's application-trust policies, rather than disabling device protection to run an unfamiliar binary. More information: [Installation guide](docs/INSTALL.md) and [release checklist](docs/RELEASE.md).
 
 ## Why SparkPrivacy?
 
@@ -161,7 +161,7 @@ Cross-platform CI runs Windows, macOS and Ubuntu Python tests, dependency audit,
 | --- | --- |
 | Local DLP scanner, policies, gateway, reporting and UI | **Implemented** |
 | Local automated security/functional test suite | **55 tests passing** in development environment |
-| Packaged executable self-test | **Passing from source** |
+| Packaged executable self-test | **Passed in Windows, macOS Intel/Apple Silicon and Linux CI builds** |\n| GitHub release assets | **Six packages and SHA256 manifest published** |
 | Signed Windows/macOS/Linux production packages | **Not completed** |
 | Physical DGX Spark ethernet/SSH acceptance | **Not completed** |
 | Independent security review, accuracy/recall evaluation and privacy compliance | **Not completed** |
