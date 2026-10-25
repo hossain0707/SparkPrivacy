@@ -89,6 +89,12 @@ def _stop_server(app, server, thread: threading.Thread) -> None:
     finally:
         server.should_exit = True
         thread.join(timeout=5)
+        if thread.is_alive():
+            raise RuntimeError("Local HTTP server did not stop cleanly")
+        # On Windows, an open SQLite connection prevents the temporary
+        # startup-test workspace from being deleted. Also flush/close the
+        # real desktop audit database on normal window shutdown.
+        app.state.store.close()
 
 
 def startup_self_test() -> dict:
