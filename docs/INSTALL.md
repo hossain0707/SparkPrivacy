@@ -40,3 +40,7 @@ Windows PowerShell: `Get-FileHash .\SparkPrivacy-Setup-Windows-x64.exe -Algorith
 ## Developers
 
 Clone source, `python -m pip install -e '.[dev]'`, run tests and use `python -m sparkprivacy`. Optional native shell: `python -m pip install -e '.[desktop]'`; `python desktop_launcher.py`. Builds are defined in `.github/workflows/ci.yml`.
+
+## Direct verified download (2026-10-25)
+
+The first published preview is [`v0.1.0-preview.2`](https://github.com/hossain0707/SparkPrivacy/releases/tag/v0.1.0-preview.2), containing the exact Windows, macOS and Linux filenames listed above, plus a matching SHA-256 manifest. The release pipeline passed 15 jobs. The binaries remain unsigned, with clean-machine acceptance pending. For later releases, choose the newest GitHub-verified preview whose assets and checksums have been inspected.
