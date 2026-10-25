@@ -55,3 +55,10 @@ If the Windows application fails with **"Unable to configure formatter 'default'
 4. Launch from Start Menu. If it still fails, report the preview tag, Windows version, and the full error text (without sensitive prompts, keys, or credentials).
 
 The corrected release adds a real packaged-backend startup check; this improves regression coverage but does not replace installation testing on your particular Windows machine.
+
+## Verified Windows startup hotfix — v0.1.1-preview.4
+
+- [**Download corrected Windows setup EXE**](https://github.com/hossain0707/SparkPrivacy/releases/download/v0.1.1-preview.4/SparkPrivacy-Setup-Windows-x64.exe) or see [all platforms](https://github.com/hossain0707/SparkPrivacy/releases/tag/v0.1.1-preview.4).
+- Previous **v0.1.0-preview.2** Windows installer failed at launch with `Unable to configure formatter 'default'` / `NoneType.isatty` in PyInstaller consoleless mode; replace it with **v0.1.1-preview.4**.
+- [GitHub CI run 40166972946](https://github.com/hossain0707/SparkPrivacy/actions/runs/40166972946) completed **successfully**: 9 platform/Python test jobs, 1 dependency audit, 4 desktop packages with live HTTP startup checks, and 1 release publication job.
+- Windows, macOS Intel/Apple Silicon, Ubuntu DEB and portable builds plus `SHA256SUMS.txt` are present in the verified prerelease. The preview is unsigned; real user-machine acceptance, DGX Spark testing and independent security validation remain pending.

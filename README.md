@@ -28,6 +28,9 @@ Detect sensitive information. Apply clear block/redact/monitor policies. Route t
 
 ## Download and install
 
+**Windows startup fixed:** [Download the corrected Windows installer (v0.1.1-preview.4)](https://github.com/hossain0707/SparkPrivacy/releases/download/v0.1.1-preview.4/SparkPrivacy-Setup-Windows-x64.exe). The original `v0.1.0-preview.2` Windows installer crashes with the formatter error shown in the user report. Replace the old version.
+
+
 The GitHub Actions release workflow is configured to publish unsigned preview installers **after all platform checks succeed**. Download only a [release that actually appears on GitHub](https://github.com/hossain0707/SparkPrivacy/releases). If no release is listed, the cross-platform packages have not yet been verified/published; use the source installation below.
 
 | Your computer | Expected GitHub Release asset | Installation |
