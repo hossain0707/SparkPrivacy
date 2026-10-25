@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 465" width="1280" height="465" role="img" aria-labelledby="t d">
+<title id="t">SparkPrivacy — Private AI. Protected by design.</title><desc id="d">Professional dark navy product banner with an abstract glowing security shield, illustrative control orbits and local-first text.</desc>
+<defs><linearGradient id="b" x2="1" y2="1"><stop stop-color="#071323"/><stop offset=".55" stop-color="#102A38"/><stop offset="1" stop-color="#09172B"/></linearGradient><linearGradient id="m"><stop stop-color="#58E6C1"/><stop offset="1" stop-color="#82AAFF"/></linearGradient><radialGradient id="g"><stop stop-color="#2FD5B6" stop-opacity=".22"/><stop offset="1" stop-color="#2FD5B6" stop-opacity="0"/></radialGradient></defs>
+<style>.orb{transform-origin:985px 228px;animation:spin 22s linear infinite}.orb2{transform-origin:985px 228px;animation:spin 38s linear reverse infinite}.flow{stroke-dasharray:8 14;animation:slide 6s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@keyframes slide{to{stroke-dashoffset:-110}}@media(prefers-reduced-motion:reduce){.orb,.orb2,.flow{animation:none}}</style>
+<rect width="1280" height="465" rx="25" fill="url(#b)"/><circle cx="982" cy="226" r="289" fill="url(#g)"/>
+<g stroke="#2B5166" opacity=".32"><path d="M0 93H1280M0 186H1280M0 279H1280M0 372H1280M128 0V465M256 0V465M384 0V465M512 0V465M640 0V465M768 0V465M896 0V465M1024 0V465M1152 0V465"/></g>
+<rect x="53" y="38" width="50" height="50" rx="15" fill="#1A413C" stroke="#4AD7B3"/><path d="M78 48 92 54v13c0 10-6 17-14 22-8-5-14-12-14-22V54z" fill="none" stroke="#73F0D0" stroke-width="2.5"/><path d="m71 68 6 6 11-13" fill="none" stroke="#C8FFF2" stroke-width="3"/>
+<text x="121" y="70" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#F0FBFF">SparkPrivacy</text>
+<text x="53" y="145" font-family="Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="3" fill="#75E6C6">PRIVATE AI SECURITY WORKBENCH</text>
+<text x="50" y="214" font-family="Arial,sans-serif" font-size="50" font-weight="700" letter-spacing="-1.2" fill="#F2FBFF">Private AI.</text><text x="50" y="272" font-family="Arial,sans-serif" font-size="50" font-weight="700" letter-spacing="-1.2" fill="url(#m)">Protected by design.</text>
+<text x="54" y="318" font-family="Arial,sans-serif" font-size="18" fill="#B4D0D8">Inspect sensitive data. Enforce policies. Keep control local.</text>
+<text x="54" y="348" font-family="Arial,sans-serif" font-size="15" fill="#8EACBA">Windows · macOS · Linux · optional DGX Spark OpenSSH</text>
+<rect x="54" y="393" width="188" height="39" rx="11" fill="#195149" stroke="#37816E"/><text x="148" y="418" font-size="12" text-anchor="middle" font-family="Arial,sans-serif" fill="#D5FCEF" font-weight="700">NO CLOUD TELEMETRY</text>
+<rect x="260" y="393" width="186" height="39" rx="11" fill="#223A4B" stroke="#365F72"/><text x="353" y="418" font-size="12" text-anchor="middle" font-family="Arial,sans-serif" fill="#D5E5FA">DEVELOPER PREVIEW</text>
+<g class="orb"><ellipse cx="985" cy="228" rx="242" ry="110" transform="rotate(31 985 228)" fill="none" stroke="#67E8C6" stroke-opacity=".6" stroke-width="2"/><circle cx="1227" cy="228" r="8" fill="#56E8BF"/></g>
+<g class="orb2"><ellipse cx="985" cy="228" rx="166" ry="216" transform="rotate(22 985 228)" fill="none" stroke="#9BB6FF" stroke-opacity=".47" stroke-width="2"/><circle cx="985" cy="12" r="7" fill="#8EABF9"/></g>
+<circle cx="985" cy="228" r="143" fill="#123845" stroke="#4B968B" stroke-width="2"/><circle cx="985" cy="228" r="107" fill="none" stroke="#5AD6B3" stroke-opacity=".55"/>
+<path d="M985 151 1051 174v56c0 45-24 68-66 93-42-25-66-48-66-93v-56z" fill="#20594F" stroke="#63E1C3" stroke-width="4"/><path d="m952 232 23 25 48-54" fill="none" stroke="#CFFFF2" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="flow" d="M700 420H1260" stroke="#6DE6C6" stroke-width="2" opacity=".7" fill="none"/><text x="1240" y="449" text-anchor="end" fill="#7C9BAE" font-family="Arial,sans-serif" font-size="11">CONCEPT VISUAL · NOT VERIFIED DLP CERTIFICATION</text>
+</svg>

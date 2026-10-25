@@ -1,0 +1,174 @@
+name: SparkPrivacy - Tests, Desktop Builds and Preview Release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2022, macos-15-intel]
+        python: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m pytest -q
+      - run: python -m compileall -q sparkprivacy
+      - run: node --check sparkprivacy/frontend/app.js
+      - run: python desktop_launcher.py --self-test
+
+  security:
+    name: Dependency vulnerability audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e . pip-audit
+      - run: python -m pip_audit
+
+  package:
+    name: Desktop package (${{ matrix.id }})
+    needs: [test, security]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { id: windows-x64, os: windows-2022, platform: windows }
+          - { id: macos-intel, os: macos-15-intel, platform: macos }
+          - { id: macos-arm64, os: macos-15, platform: macos }
+          - { id: linux-x64, os: ubuntu-24.04, platform: linux }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Linux GUI dependencies
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y libgtk-3-0 libwebkit2gtk-4.1-0 gir1.2-webkit2-4.1 xvfb
+      - name: Desktop dependencies
+        run: python -m pip install -e '.[desktop]' pillow
+      - name: Generate application icons
+        run: python scripts/generate_icons.py
+      - name: Build standalone desktop executable
+        shell: bash
+        run: |
+          python -m PyInstaller --noconfirm --clean --windowed --onedir \
+            --name SparkPrivacy \
+            --icon "assets/sparkprivacy-icon.${{ matrix.platform == 'windows' && 'ico' || matrix.platform == 'macos' && 'icns' || 'png' }}" \
+            --add-data 'sparkprivacy/frontend:sparkprivacy/frontend' \
+            --collect-all webview \
+            --collect-all uvicorn \
+            --hidden-import sparkprivacy.server \
+            desktop_launcher.py
+      - name: Windows packaged import test
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $process = Start-Process -FilePath ".\dist\SparkPrivacy\SparkPrivacy.exe" -ArgumentList '--self-test' -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "Packaged self-test failed: $($process.ExitCode)" }
+      - name: macOS/Linux packaged import test
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          if [[ "${{ runner.os }}" == 'macOS' ]]; then
+            ./dist/SparkPrivacy.app/Contents/MacOS/SparkPrivacy --self-test
+          else
+            ./dist/SparkPrivacy/SparkPrivacy --self-test
+          fi
+      - name: Windows setup installer and portable ZIP
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist/release | Out-Null
+          Compress-Archive -Path dist/SparkPrivacy -DestinationPath dist/release/SparkPrivacy-Portable-Windows-x64.zip -CompressionLevel Optimal
+          choco install innosetup --yes --no-progress
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "installer\SparkPrivacy.iss"
+          if ($LASTEXITCODE -ne 0) { throw 'Inno Setup packaging failed' }
+      - name: macOS unsigned DMG
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          mkdir -p dist/release dist/dmg-stage
+          cp -R dist/SparkPrivacy.app dist/dmg-stage/
+          ln -s /Applications dist/dmg-stage/Applications
+          if [[ "${{ matrix.id }}" == 'macos-arm64' ]]; then label=Apple-Silicon; else label=Intel; fi
+          hdiutil create -volname 'SparkPrivacy Preview' -srcfolder dist/dmg-stage -ov -format UDZO "dist/release/SparkPrivacy-macOS-${label}-unsigned.dmg"
+      - name: Linux Ubuntu DEB and portable TAR.GZ
+        if: runner.os == 'Linux'
+        shell: bash
+        run: bash scripts/package_linux.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SparkPrivacy-package-${{ matrix.id }}
+          path: dist/release/*
+          if-no-files-found: error
+          retention-days: 30
+
+  preview-release:
+    name: Publish unsigned preview on GitHub Releases
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: [test, security, package]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: SparkPrivacy-package-*
+          path: release-assets
+          merge-multiple: true
+      - name: Verify all six platform packages and generate SHA-256
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd release-assets
+          for f in \
+            SparkPrivacy-Setup-Windows-x64.exe \
+            SparkPrivacy-Portable-Windows-x64.zip \
+            SparkPrivacy-macOS-Intel-unsigned.dmg \
+            SparkPrivacy-macOS-Apple-Silicon-unsigned.dmg \
+            SparkPrivacy-Linux-Ubuntu-x64.deb \
+            SparkPrivacy-Portable-Linux-x64.tar.gz; do
+            test -s "$f" || { echo "Missing: $f"; exit 1; }
+          done
+          sha256sum SparkPrivacy-* > SHA256SUMS.txt
+      - name: Publish versioned prerelease (not production stable)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="v0.1.0-preview.${GITHUB_RUN_NUMBER}"
+          gh release create "$tag" release-assets/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --prerelease \
+            --title "SparkPrivacy v0.1.0 · Unsigned Developer Preview #${GITHUB_RUN_NUMBER}" \
+            --notes-file docs/PREVIEW_RELEASE_NOTES.md
