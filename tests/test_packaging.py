@@ -21,4 +21,4 @@ def test_readme_and_ci_have_matching_distribution_names():
 
 
 def test_no_external_frontend_scripts():
-    assert 'https://' not in (frontend_dir()/'index.html').read_text()
+    assert 'https://' not in (frontend_dir()/'index.html').read_text(encoding='utf-8')
